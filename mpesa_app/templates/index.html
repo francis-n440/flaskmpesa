@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="{{ url_for('static', filename='css/stack-interface.css') }}" rel="stylesheet" type="text/css" media="all">
+        <link href="{{ url_for('static', filename='css/socicon.css') }}" rel="stylesheet" type="text/css" media="all" />
+        <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet" type="text/css" media="all" />
+        <link href="{{ url_for('static', filename='css/stack-interface.css') }}" rel="stylesheet" type="text/css" media="all" />
+        <link href="{{ url_for('static', filename='css/theme.css') }}" rel="stylesheet") type="text/css" media="all" />
+        <link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet") type="text/css" media="all" />
+       <link href="https://fonts.googleapis.com/css?family=Catamaran:300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+
+
+    </head>
+    <body data-smooth-scroll-offset="77">
+
+        <div class="main-container">
+            <section class="switchable">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-5 col-sm-5">
+                            <div class="switchable__text">
+                                <h3 class="cstm-header-styl">Extract & organise data from PDF files</h3>
+
+                                <p class="lead"> An automated software that can be used to extract, sort and save data from pdf file in excel format. </p>
+                                <a href="#start-extract" class="cstm-btn-1">START EXTRACTING</a>
+
+                            </div>
+                        </div>
+                        <div class="col-md-5 col-sm-7 col-xs-12">
+                            <img src="{{ url_for('static', filename='img/pdf-extract-header.png') }}">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="text-center" id="start-extract">
+                <div class="container">
+                    <div class="row">
+                         <center>
+                        <div class="col-sm-10 col-md-8">
+                            <div class="row">
+                                <form action="" method="POST" enctype="multipart/form-data">
+                                    <div class="col-sm-8 col-sm-offset-2">
+                                        <p class="text-left steps-cstm-styl"><span class="cstm-step-clr">Step 01:</span> Select/import the Mpesa pdf from your device</p>
+                                        <input class="brdr-styl"  type="file" name="file" class="form-control-file" value="{{ csrf_token }}>
+                                    </div>
+                                    <div class="col-sm-8 col-sm-offset-2">
+                                        <p class="text-left steps-cstm-styl"><span class="cstm-step-clr">Step 02:</span> Enter password <i class="helper-txt-styl">(leave blank if pdf does not have password)</i></p>
+                                        <input class="brdr-styl" type="password" name="password" placeholder="Enter password">
+                                        <p style="margin-top: 20px; margin-bottom: -20px;" class="text-left"><strong style="color: red">{{ error }}</strong></p>
+                                    </div>
+                                    <div class="col-sm-8 col-sm-offset-2">
+                                      <button type="submit" href="#start-extract" class="btn btn--primary type--uppercase cstm-btn-2">EXTRACT DATA</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        </center>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <script src="{{ url_for( 'static', filename='js/jquery-3.1.1.min.js') }}"></script>
+        <script src="{{ url_for( 'static', filename='js/parallax.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/smooth-scroll.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+
+    </body>
+
+</html>

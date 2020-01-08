@@ -1,0 +1,65 @@
+html {
+  scroll-behavior: smooth;
+}
+
+body h3 p a{
+  font-family: 'Catamaran', sans-serif!important;  
+}
+
+.cstm-header-styl {
+  font-size: 55px;
+  font-weight: 800;
+  line-height: 1.3em;
+  color: darkcyan;
+}
+.cstm-btn-1 {
+  padding: 15px 40px;
+  background-color: orange;
+  border-radius: 50px;
+  font-size: 25px!important;
+  font-family: 'Catamaran', sans-serif!important;
+  color: white;
+  font-weight: 800;
+}
+
+.cstm-btn-1:hover {
+  padding: 15px 40px;
+  background-color: #FFF;
+  border-radius: 50px;
+  font-size: 25px!important;
+  font-family: 'Catamaran', sans-serif!important;
+  color: orange;
+  font-weight: 800;
+  cursor: pointer;
+  text-decoration: none;
+  border: 2px solid orange;
+}
+
+.steps-cstm-styl {
+  font-size: 20px;
+  font-weight: 700;
+  font-family: 'Catamaran', sans-serif!important;
+  margin-bottom: 0px;
+  margin-top: 25px;
+  margin-bottom: 10px;
+}
+
+.helper-txt-styl {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.cstm-step-clr {
+  color: orange;
+}
+.brdr-styl {
+  border-radius: 30px!important;
+  border: 2px solid cadetblue!important;
+}
+
+.cstm-btn-2 {
+  border-radius: 30px;
+  font-size: 16px!important;
+  margin-top: 30px;
+  background: forestgreen;
+}
