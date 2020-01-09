@@ -14,6 +14,7 @@ import openpyxl
 from openpyxl import load_workbook
 import os
 import pandas as pd
+from pandas import Series
 import pandas.io.formats.excel
 pandas.io.formats.excel.header_style = None
 import xlsxwriter
@@ -102,7 +103,7 @@ def parse_mpesa_content(extracted_data):
 def find_name(matches2):
     for match in matches2:
         print(match[1])
-        
+
     return match[1]
 
 def paidin(workbook):
@@ -118,11 +119,28 @@ def paidin(workbook):
             index = reg.start()
         row['DETAILS'] = row['DETAILS'][:index]
         return row
-    idx = paidin.apply(format, axis=1).groupby(['DETAILS'], as_index=False).apply(lambda r: r).sort_values(['DETAILS', 'VALUE'], ascending=False).index
+
+    sorted_df = paidin.apply(format, axis=1).groupby(['DETAILS'], as_index=False).apply(lambda r: r).sort_values(['DETAILS', 'VALUE'], ascending=False)
+    idx = sorted_df.index
     paidin = paidin.loc[idx]
+
+    unique_groups = set(sorted_df['DETAILS'])
+    details_series = sorted_df['DETAILS']
+    index_for_groups = {group: idx.get_loc(details_series.where(details_series==group).last_valid_index())
+                        for group in unique_groups}
+
+    values = sorted(index_for_groups.values())
+
+    added = 0
+    paidin = paidin.append(Series([]), ignore_index=True)
+    for index in values:
+        index += added
+        paidin = paidin.loc[:index].append(Series([]), ignore_index=True).append(paidin.loc[index+1:], ignore_index=True)
+        added += 1
+
     subtotal = paidin['VALUE'].sum()
-    excel_df2 = pd.DataFrame({'VALUE':[subtotal], 'DETAILS': 'Grand Total'})
-    df_append = paidin.append(excel_df2, ignore_index=False)
+    excel_df = pd.DataFrame({'VALUE':[subtotal], 'DETAILS': 'Grand Total'})
+    df_append = paidin.append(excel_df, ignore_index=False)
     df_append.rename(columns={'VALUE':'AMOUNT'}, inplace=True)
 
     return df_append
@@ -141,19 +159,36 @@ def withdrawal(workbook):
             index = reg.start()
         row['DETAILS'] = row['DETAILS'][:index]
         return row
-    idx = withdrawn.apply(format, axis=1).groupby(['DETAILS'], as_index=False).apply(lambda r: r).sort_values(['DETAILS', 'VALUE'], ascending=False).index
+
+    sorted_df = withdrawn.apply(format, axis=1).groupby(['DETAILS'], as_index=False).apply(lambda r: r).sort_values(['DETAILS', 'VALUE'], ascending=False)
+    idx = sorted_df.index
     withdrawn = withdrawn.loc[idx]
+
+    unique_groups = set(sorted_df['DETAILS'])
+    details_series = sorted_df['DETAILS']
+    index_for_groups = {group: idx.get_loc(details_series.where(details_series==group).last_valid_index())
+                        for group in unique_groups}
+
+    values = sorted(index_for_groups.values())
+
+    added = 0
+    withdrawn = withdrawn.append(Series([]), ignore_index=True)
+    for index in values:
+        index += added
+        withdrawn = withdrawn.loc[:index].append(Series([]), ignore_index=True).append(withdrawn.loc[index+1:], ignore_index=True)
+        added += 1
+    #
     subtotal = withdrawn['VALUE'].sum()
-    excel_df2 = pd.DataFrame({'VALUE':[subtotal], 'DETAILS': 'Grand Total'})
-    df_append = withdrawn.append(excel_df2, ignore_index=False)
+    excel_df = pd.DataFrame({'VALUE':[subtotal], 'DETAILS': 'Grand Total'})
+    df_append = withdrawn.append(excel_df, ignore_index=False)
     df_append.rename(columns={'VALUE':'AMOUNT'}, inplace=True)
 
     return df_append
 
 def listing(paidin, withdrawn):
-    dfs = [paidin, withdrawn]
+    df = [paidin, withdrawn]
 
-    return dfs
+    return df
 
 
 def dfs_tabs(df_list, sheet_list, file_name):
