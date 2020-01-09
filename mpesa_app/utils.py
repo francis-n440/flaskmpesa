@@ -96,22 +96,13 @@ def parse_mpesa_content(extracted_data):
     file = BytesIO(f.read())
     f.close()
     os.remove(filename)
+
     return file, matches2
-
-
-def exec_analytics(excel):
-    book = load_workbook(excel)
-    book.create_sheet(index=2, title='SUMMARY')
-    book.create_sheet(index=3, title='PAID IN DATA')
-    book.create_sheet(index=4, title='WITHDRAWN DATA')
-    df_excel = BytesIO()
-    book.save(df_excel)
-    
-    return df_excel
 
 def find_name(matches2):
     for match in matches2:
         print(match[1])
+        
     return match[1]
 
 def paidin(workbook):
