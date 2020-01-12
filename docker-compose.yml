@@ -1,0 +1,11 @@
+version : '3.5'
+
+services:
+  web:
+    image: mpesa_app:v1
+    restart: always
+    build: .
+    volumes:
+      - "./:/app"
+    ports:
+      - "80:5000"
